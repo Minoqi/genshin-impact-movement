@@ -8,6 +8,7 @@ namespace GenshinImpactMovementSystem
     public class Player : MonoBehaviour
     {
         public Rigidbody PlayerRigidbody { get; private set; }
+        public Transform MainCameraTransform { get; private set; }
         public PlayerInput Input { get; private set; }
 
         private PlayerMovementStateMachine playerMovementStateMachine;
@@ -16,6 +17,8 @@ namespace GenshinImpactMovementSystem
         {
             PlayerRigidbody = GetComponent<Rigidbody>();
             Input = GetComponent<PlayerInput>();
+
+            MainCameraTransform = Camera.main.transform;
 
             playerMovementStateMachine = new PlayerMovementStateMachine(this);
         }

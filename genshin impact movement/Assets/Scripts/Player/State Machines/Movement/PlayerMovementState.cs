@@ -66,6 +66,19 @@ namespace GenshinImpactMovementSystem
             // NOTE :: AddForce() happens next update, changing velocity is instantaneous 
             // NOTE :: Vector multiplcation takes resources, so for optimization make sure you always multiply the vector last (ex. float * float * vector)
         }
+
+        private float Rotate(Vector3 direction)
+        {
+            // Variables
+            float directionAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+            // Convert negative degrees to positive
+            if (directionAngle < 0f)
+            {
+                directionAngle += 360f;
+            }
+        }
+
         #endregion Main Methods
 
 
