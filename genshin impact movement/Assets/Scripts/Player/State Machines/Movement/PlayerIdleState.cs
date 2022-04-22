@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GenshinImpactMovementSystem
 {
-    public class PlayerIdleState : PlayerGroundState
+    public class PlayerIdleState : PlayerMovingState
     {
         public PlayerIdleState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
@@ -17,7 +17,7 @@ namespace GenshinImpactMovementSystem
         {
             base.Enter();
 
-            speedModifier = 0f; // Stop player from moving
+            stateMachine.ReusableData.MovementSpeedModifier = 0f; // Stop player from moving
             ResetVelocity(); // Stop physics
         }
 
@@ -25,7 +25,7 @@ namespace GenshinImpactMovementSystem
         {
             base.Update();
 
-            if (movementInput == Vector2.zero)
+            if (stateMachine.ReusableData.MovementInput == Vector2.zero)
             {
                 return;
             }

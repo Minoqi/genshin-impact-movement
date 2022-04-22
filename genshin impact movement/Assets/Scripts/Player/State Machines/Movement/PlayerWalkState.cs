@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace GenshinImpactMovementSystem
 {
-    public class PlayerWalkState : PlayerGroundState
+    public class PlayerWalkState : PlayerMovingState
     {
         public PlayerWalkState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
@@ -17,7 +17,7 @@ namespace GenshinImpactMovementSystem
         {
             base.Enter();
 
-            speedModifier = 0.225f;
+            stateMachine.ReusableData.MovementSpeedModifier = movementData.WalkData.SpeedModifier;
         }
         #endregion ISTATE METHODS
 

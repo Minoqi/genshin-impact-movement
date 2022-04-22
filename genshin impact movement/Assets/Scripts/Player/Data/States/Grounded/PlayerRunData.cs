@@ -6,6 +6,6 @@ namespace GenshinImpactMovementSystem
     [Serializable]
     public class PlayerRunData
     {
-        [SerializeField] [field: Range(1f, 2f)] public float SpeedModifier { get; private set; } = 1f;
+        [field: SerializeField] [field: Range(1f, 2f)] public float SpeedModifier { get; private set; } = 1f;
     }
 }

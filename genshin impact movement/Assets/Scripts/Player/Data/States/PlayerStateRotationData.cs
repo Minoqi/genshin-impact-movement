@@ -6,6 +6,6 @@ namespace GenshinImpactMovementSystem
     [Serializable]
     public class PlayerStateRotationData
     {
-        [SerializeField] public Vector3 TargetRotationReachTime { get; private set; }
+        [field: SerializeField] public Vector3 TargetRotationReachTime { get; private set; }
     }
 }

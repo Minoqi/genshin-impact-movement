@@ -28,7 +28,7 @@ namespace GenshinImpactMovementSystem
 
         protected virtual void Move()
         {
-            if (shouldWalk)
+            if (stateMachine.ReusableData.ShouldWalk)
             {
                 stateMachine.ChangeState(stateMachine.WalkState);
                 return;

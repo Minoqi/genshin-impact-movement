@@ -8,28 +8,19 @@ namespace GenshinImpactMovementSystem
     {
         // Variables
         protected PlayerMovementStateMachine stateMachine;
-        protected bool shouldWalk;
-
-        protected Vector2 movementInput;
-        protected float baseSpeed = 5f;
-        protected float speedModifier = 1f;
-
-        // Using vector3 since gliding system needs an x and z
-        protected Vector3 currentTargetRotation;
-        protected Vector3 timeToReachTargetRotation;
-        protected Vector3 dampedTargetRotationCurrentVelocity;
-        protected Vector3 dampedTargetRotationPassedTime;
+        protected PlayerGroundedData movementData;
 
         public PlayerMovementState(PlayerMovementStateMachine playerMovementStateMachine)
         {
             stateMachine = playerMovementStateMachine;
+            movementData = stateMachine.Player.Data.GroundedData;
 
             InitializeData();
         }
 
         private void InitializeData()
         {
-            timeToReachTargetRotation.y = 0.14f; // Tie it takes for rotation to happen in genshin
+            stateMachine.ReusableData.TimeToReachTargetRotation = movementData.BaseRotationData.TargetRotationReachTime;
         }
 
 
@@ -68,13 +59,13 @@ namespace GenshinImpactMovementSystem
         #region MAIN METHODS
         private void ReadMovementInput()
         {
-            movementInput = stateMachine.Player.Input.PlayerActions.Movement.ReadValue<Vector2>();
+            stateMachine.ReusableData.MovementInput = stateMachine.Player.Input.PlayerActions.Movement.ReadValue<Vector2>();
         }
 
         private void Move()
         {
             // Not moving
-            if (movementInput == Vector2.zero || speedModifier == 0f) // Not moving
+            if (stateMachine.ReusableData.MovementInput == Vector2.zero || stateMachine.ReusableData.MovementSpeedModifier == 0f) // Not moving
             {
                 return;
             }
@@ -108,12 +99,12 @@ namespace GenshinImpactMovementSystem
         #region REUSABLE METHODS
         protected Vector3 GetMovementDirection()
         {
-            return new Vector3(movementInput.x, 0f, movementInput.y);
+            return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
         }
 
         protected float GetMovementSpeed()
         {
-            return baseSpeed * speedModifier;
+            return movementData.BaseSpeed * stateMachine.ReusableData.MovementSpeedModifier;
         }
 
         protected Vector3 GetPlayerHorizontalVelocity()
@@ -127,14 +118,14 @@ namespace GenshinImpactMovementSystem
         {
             float currentYAngle = stateMachine.Player.PlayerRigidbody.rotation.eulerAngles.y;
 
-            if (currentYAngle == currentTargetRotation.y)
+            if (currentYAngle == stateMachine.ReusableData.CurrentTargetRotation.y)
             {
                 return;
             }
 
-            float smoothedYAngle = Mathf.SmoothDampAngle(currentYAngle, currentTargetRotation.y, ref dampedTargetRotationCurrentVelocity.y, timeToReachTargetRotation.y);
+            float smoothedYAngle = Mathf.SmoothDampAngle(currentYAngle, stateMachine.ReusableData.CurrentTargetRotation.y, ref stateMachine.ReusableData.DampedTargetRotationCurrentVelocity.y, stateMachine.ReusableData.TimeToReachTargetRotation.y);
 
-            dampedTargetRotationPassedTime.y += Time.deltaTime;
+            stateMachine.ReusableData.DampedTargetRotationPassedTime.y += Time.deltaTime;
 
             Quaternion targetRotation = Quaternion.Euler(0f, smoothedYAngle, 0f);
 
@@ -162,10 +153,10 @@ namespace GenshinImpactMovementSystem
                 }
             }
 
-            if (directionAngle != currentTargetRotation.y)
+            if (directionAngle != stateMachine.ReusableData.CurrentTargetRotation.y)
             {
-                currentTargetRotation.y = directionAngle;
-                dampedTargetRotationPassedTime.y = 0f;
+                stateMachine.ReusableData.CurrentTargetRotation.y = directionAngle;
+                stateMachine.ReusableData.DampedTargetRotationPassedTime.y = 0f;
             }
 
             return directionAngle;
@@ -199,7 +190,7 @@ namespace GenshinImpactMovementSystem
         #region INPUT METHODS
         protected virtual void OnWalkToggleStarted(InputAction.CallbackContext context)
         {
-            shouldWalk = !shouldWalk;
+            stateMachine.ReusableData.ShouldWalk = !stateMachine.ReusableData.ShouldWalk;
         }
         #endregion INPUT METHODS
     }

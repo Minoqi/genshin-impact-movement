@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3538,7 +3538,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.778761, y: 1}
+    m_SensorSize: {x: 2.4651163, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4594,6 +4594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ae4b58b4bf9204daf590cf856b635d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Data>k__BackingField: {fileID: 11400000, guid: a3f1d8e9486ff1645b534beb61182ee9, type: 2}
 --- !u!114 &1908960075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4629,7 +4630,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908960072}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 43f63bfa446e9054885e079ea1a24a3d, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.2

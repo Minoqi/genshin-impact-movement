@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace GenshinImpactMovementSystem
 {
-    public class PlayerRunState : PlayerGroundState
+    public class PlayerRunState : PlayerMovingState
     {
         public PlayerRunState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
@@ -16,7 +16,7 @@ namespace GenshinImpactMovementSystem
         {
             base.Enter();
 
-            speedModifier = 1f;
+            stateMachine.ReusableData.MovementSpeedModifier = movementData.RunData.SpeedModifier;
         }
         #endregion ISTATE METHODS
 
