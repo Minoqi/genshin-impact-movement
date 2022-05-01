@@ -7,8 +7,12 @@ namespace GenshinImpactMovementSystem
 {
     public class PlayerRunState : PlayerMovingState
     {
+        private float startTime;
+        private PlayerSprintData sprintData;
+
         public PlayerRunState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
+            sprintData = movementData.SprintData;
         }
 
         #region ISTATE METHODS
@@ -17,8 +21,43 @@ namespace GenshinImpactMovementSystem
             base.Enter();
 
             stateMachine.ReusableData.MovementSpeedModifier = movementData.RunData.SpeedModifier;
+            startTime = Time.time;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            // Should be running
+            if (!stateMachine.ReusableData.ShouldWalk)
+            {
+                return;
+            }
+
+            // Keep running
+            if (Time.time < startTime + sprintData.RunToWalkTime)
+            {
+                return;
+            }
+
+            StopRunning();
         }
         #endregion ISTATE METHODS
+
+
+
+        #region MAIN METHODS
+        private void StopRunning()
+        {
+            if (stateMachine.ReusableData.MovementInput == Vector2.zero)
+            {
+                stateMachine.ChangeState(stateMachine.IdleState);
+                return;
+            }
+
+            stateMachine.ChangeState(stateMachine.WalkState);
+        }
+        #endregion MIAN METHODS
 
 
 

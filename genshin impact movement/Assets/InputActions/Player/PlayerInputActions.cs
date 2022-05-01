@@ -49,6 +49,22 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": ""Clamp(min=-0.1,max=0.1),Invert"",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""8c18a4b8-6a3a-42be-8012-0a734e47e78b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""89da244f-1f11-48fb-9797-e72cf3d3837a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=1)""
                 }
             ],
             ""bindings"": [
@@ -139,6 +155,50 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3caada85-41ea-4b26-88b9-955c58ac5bea"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""70ac5d3e-c43b-470c-bc77-90046d86d4ff"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c29610aa-52f6-40b2-a4dd-2f191492ed13"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""badd3f04-0610-470c-bf16-0c6cc5ad1dc6"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -151,6 +211,8 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Player_WalkToggle = m_Player.FindAction("WalkToggle", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,6 +266,8 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_WalkToggle;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Zoom;
+    private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_Sprint;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -212,6 +276,8 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @WalkToggle => m_Wrapper.m_Player_WalkToggle;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -233,6 +299,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Zoom.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Sprint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -249,6 +321,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
             }
         }
     }
@@ -259,5 +337,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnWalkToggle(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
     }
 }

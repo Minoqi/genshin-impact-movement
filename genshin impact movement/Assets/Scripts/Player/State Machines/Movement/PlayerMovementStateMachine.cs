@@ -9,6 +9,7 @@ namespace GenshinImpactMovementSystem
         public PlayerWalkState WalkState { get; }
         public PlayerRunState RunState { get; }
         public PlayerSprintState SprintState { get; }
+        public PlayerDashState DashState { get; }
 
         public PlayerMovementStateMachine(Player player)
         {
@@ -19,6 +20,7 @@ namespace GenshinImpactMovementSystem
             WalkState = new PlayerWalkState(this);
             RunState = new PlayerRunState(this);
             SprintState = new PlayerSprintState(this);
+            DashState = new PlayerDashState(this);
         }
     }
 }

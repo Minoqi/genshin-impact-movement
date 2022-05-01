@@ -11,5 +11,8 @@ namespace GenshinImpactMovementSystem
         public void HandleInput();
         public void Update(); // non-physics related logic
         public void PhysicsUpdate();
+        public void OnAnimationEnterEvent();
+        public void OnAnimationExitEvent();
+        public void OnAnimationTransitionEvent();
     }
 }
