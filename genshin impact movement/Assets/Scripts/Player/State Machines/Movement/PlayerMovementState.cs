@@ -104,7 +104,7 @@ namespace GenshinImpactMovementSystem
 
         protected float GetMovementSpeed()
         {
-            return movementData.BaseSpeed * stateMachine.ReusableData.MovementSpeedModifier;
+            return movementData.BaseSpeed * stateMachine.ReusableData.MovementSpeedModifier * stateMachine.ReusableData.MovementOnSlopesSpeedModifier;
         }
 
         protected Vector3 GetPlayerHorizontalVelocity()
@@ -112,6 +112,11 @@ namespace GenshinImpactMovementSystem
             Vector3 playerHorizontalVelocity = stateMachine.Player.PlayerRigidbody.velocity;
             playerHorizontalVelocity.y = 0f;
             return playerHorizontalVelocity;
+        }
+
+        protected Vector3 GetPlayerVerticalVelocity()
+        {
+            return new Vector3(0f, stateMachine.Player.PlayerRigidbody.velocity.y, 0f);
         }
 
         protected void RotateTowardsTargetRotation()
@@ -123,7 +128,7 @@ namespace GenshinImpactMovementSystem
                 return;
             }
 
-            float smoothedYAngle = Mathf.SmoothDampAngle(currentYAngle, stateMachine.ReusableData.CurrentTargetRotation.y, ref stateMachine.ReusableData.DampedTargetRotationCurrentVelocity.y, stateMachine.ReusableData.TimeToReachTargetRotation.y);
+            float smoothedYAngle = Mathf.SmoothDampAngle(currentYAngle, stateMachine.ReusableData.CurrentTargetRotation.y, ref stateMachine.ReusableData.DampedTargetRotationCurrentVelocity.y, stateMachine.ReusableData.TimeToReachTargetRotation.y - stateMachine.ReusableData.DampedTargetRotationPassedTime.y);
 
             stateMachine.ReusableData.DampedTargetRotationPassedTime.y += Time.deltaTime;
 

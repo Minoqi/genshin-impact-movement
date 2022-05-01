@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace GenshinImpactMovementSystem
 {
-    public class CapsuleColliderUtility : MonoBehaviour
+    [ Serializable ]
+    public class CapsuleColliderUtility
     {
         // Variables
         public CapsuleColliderData CapsuleColliderData { get; private set; }

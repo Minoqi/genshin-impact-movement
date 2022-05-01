@@ -12,7 +12,7 @@ namespace GenshinImpactMovementSystem
 
         [field: Header("Collisions")]
         [field: SerializeField] public CapsuleColliderUtility ColliderUtility { get; private set; }
-
+        [field: SerializeField] public PlayerLayerData LayerData { get; private set; }
         public Rigidbody PlayerRigidbody { get; private set; }
         public Transform MainCameraTransform { get; private set; }
         public PlayerInput Input { get; private set; }
